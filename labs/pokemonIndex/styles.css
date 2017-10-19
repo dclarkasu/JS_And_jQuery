@@ -1,0 +1,11 @@
+.even {
+  background-color: grey;
+}
+
+tbody tr {
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+}
