@@ -13,7 +13,7 @@ var generateTable = function(data, status){
   var $tHeaderIndex = $('<th>').text('Pokedex Id');
   var $tHeaderName = $('<th>').text('Name');
   //Append header labels to a row
-  var $tHeadRow = $('<tr>').append($tHeaderIndex).append($tHeaderName);
+  var $tHeadRow = $('<tr>').append($tHeaderIndex, $tHeaderName);
   var $tHead = $('<thead>').append($tHeadRow);
   //Append Head to Table
   $table.append($tHead);
@@ -27,7 +27,7 @@ var generateTable = function(data, status){
     var $tDataIndex = $('<td>').text(poke.pokeId);
     var $tDataName = $('<td>').text(poke.name).attr('class', 'pokeName').attr('id', poke.pokeId);
     //Append each row to the body element every iteration
-    $tRow.append($tDataIndex).append($tDataName);
+    $tRow.append($tDataIndex, $tDataName);
     $tBody.append($tRow);
     //Determines every other index and gives it a class for styling purposes
     if (index % 2 === 0) {
@@ -65,7 +65,7 @@ var showPokemon = function(data){
   var $liWeight = $('<li>').text('Weight: ' + data.weight);
   var $liHeight = $('<li>').text('Height: ' + data.height);
   var $liExp = $('<li>').text('Experience: ' + data.exp);
-  $picDiv.append($name).append($img).append($pId);
+  $picDiv.append($name, $img, $pId);
 
   //Get types out of array within data objects for a separate list
   var $pokeTypeList = $('<ul>').text('Types: ');//FIXXXXXXX
@@ -75,9 +75,9 @@ var showPokemon = function(data){
   });
 
   //Appending to parent elements and the content div for display in html
-  $ul.append($liWeight).append($liHeight).append($liExp);
+  $ul.append($liWeight, $liHeight, $liExp);
   $statsDiv.append($ul).append($pokeTypeList);
-  $containerDiv.append($picDiv).append($statsDiv).append($detailDiv);
+  $containerDiv.append($picDiv, $statsDiv, $detailDiv);
 
   //Buttons for returning to the main list and delete (with event listener)
   var $returnBtn = $('<button>').attr('id', 'returnBtn').text('Return to List');
