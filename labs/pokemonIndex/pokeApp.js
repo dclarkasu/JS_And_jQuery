@@ -54,8 +54,8 @@ var nameCallbackHandler = function(){
 var showPokemon = function(data){
   console.log(data);
   var $containerDiv = $('<div>').attr('id', 'containerDiv');
-  var $picDiv = $('<div>').attr('id', 'picDiv');
-  var $statsDiv = $('<div>').attr('id', 'statsDiv');
+  var $picDiv = $('<div>').attr('id', 'picDiv').addClass("section");
+  var $statsDiv = $('<div>').attr('id', 'statsDiv').addClass("section");
   var $detailDiv = $('<div>').attr('id', 'detailDiv').text(data.description);
   var $img = $('<img>').attr('src', data.img).attr('alt', 'picture of ' + data.name);
   var $name = $('<h2>').text(data.name);
@@ -67,18 +67,19 @@ var showPokemon = function(data){
   var $liExp = $('<li>').text('Experience: ' + data.exp);
   $picDiv.append($name).append($img).append($pId);
 
-  //Get types out for a separate list
-  var $pokeTypeList = $('<ul>').append($('<li>').text('Types: '));
+  //Get types out of array within data objects for a separate list
+  var $pokeTypeList = $('<ul>').text('Types: ');//FIXXXXXXX
+  // .append($('<li>'))
   data.types.forEach(function(pokeType, idx){
     $pokeTypeList.append($('<li>').text(pokeType.name));
   });
 
-  //Appending to parent elements and the body for display
+  //Appending to parent elements and the content div for display in html
   $ul.append($liWeight).append($liHeight).append($liExp);
   $statsDiv.append($ul).append($pokeTypeList);
   $containerDiv.append($picDiv).append($statsDiv).append($detailDiv);
 
-  //Buttons for returning to the main list and delete
+  //Buttons for returning to the main list and delete (with event listener)
   var $returnBtn = $('<button>').attr('id', 'returnBtn').text('Return to List');
   var $deleteBtn = $('<button>').attr('id', 'deleteBtn').attr('id', data.pokeId).text('Delete Pokemon').click(deletePoke);
 
@@ -90,8 +91,6 @@ var showPokemon = function(data){
     console.log("click");
     tableRequest("", generateTable)
   });
-  //Delete Pokemon event listener
-  // $('#deleteBtn').click(deletePoke);
 };
 
 
@@ -134,8 +133,12 @@ var createNewPokemon = function(e){
   .done(function(data){
     showPokemon(data);
   })
+  .fail(function(xhr, status, err){
+    console.error("Failed POST request");
+    console.error(err);
+  })
 };
-
+//Delete pokemon by id function
 var deletePoke = function(){
   $.ajax({
     type : 'DELETE',
